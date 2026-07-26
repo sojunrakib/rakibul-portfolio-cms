@@ -583,33 +583,35 @@ h3 { font-size: 1.35rem; line-height: 1.1; }
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 52px;
-  height: 52px;
-  margin: -26px 0 0 -26px;
+  width: 62px;
+  height: 62px;
+  margin: -31px 0 0 -31px;
   display: grid;
   place-items: center;
-  border-radius: 16px;
-  border: 1px solid rgba(255,255,255,.12);
-  color: var(--text);
-  font-size: .75rem;
-  font-weight: 800;
-  letter-spacing: .04em;
-  background: rgba(10,18,26,.85);
-  backdrop-filter: blur(12px);
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(14,26,38,.93);
+  backdrop-filter: blur(14px);
   box-shadow:
-    0 12px 32px rgba(0,0,0,.3),
-    0 0 1px rgba(255,255,255,.08) inset;
+    0 14px 36px rgba(0,0,0,.35),
+    0 0 1px rgba(255,255,255,.06) inset;
   animation: orbitIcon var(--orbit-speed) linear infinite;
   will-change: transform;
   transition: scale .35s cubic-bezier(.22,1,.36,1), box-shadow .35s ease, border-color .35s ease;
 }
-.orbit-icon[style*="--tc"] { color: var(--tc); }
+.orbit-icon svg {
+  width: 68%;
+  height: 68%;
+  display: block;
+  filter: drop-shadow(0 0 6px rgba(255,255,255,.06));
+}
 .orbit-icon:hover {
-  scale: 1.18;
+  scale: 1.15;
+  background: rgba(var(--gc, 14,26,38), .95);
   box-shadow:
-    0 14px 40px rgba(var(--gc, 0,0,0), .45),
-    0 0 20px rgba(var(--gc, 0,0,0), .15);
-  border-color: rgba(var(--gc, 255,255,255), .3);
+    0 16px 44px rgba(var(--gc, 0,0,0), .5),
+    0 0 28px rgba(var(--gc, 0,0,0), .2);
+  border-color: rgba(var(--gc, 255,255,255), .2);
   z-index: 5;
 }
 @keyframes orbitIcon {
@@ -634,12 +636,12 @@ h3 { font-size: 1.35rem; line-height: 1.1; }
 @media (max-width: 720px) {
   .hero-visual { min-height: 480px; }
   .orbit-wrapper { --orbit-r: 155px; --profile-size: 185px; max-width: 420px; }
-  .orbit-icon { width: 46px; height: 46px; margin: -23px 0 0 -23px; font-size: .68rem; border-radius: 14px; }
+  .orbit-icon { width: 52px; height: 52px; margin: -26px 0 0 -26px; border-radius: 14px; }
 }
 @media (max-width: 520px) {
   .hero-visual { min-height: 400px; }
   .orbit-wrapper { --orbit-r: 130px; --profile-size: 155px; max-width: 340px; }
-  .orbit-icon { width: 42px; height: 42px; margin: -21px 0 0 -21px; font-size: .62rem; border-radius: 12px; }
+  .orbit-icon { width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 12px; }
   .orbit-ring::before, .orbit-ring--inner::before { display: none; }
   .orbit-dot { display: none; }
 }
@@ -1790,8 +1792,8 @@ html:not(.dark) .hero-visual__effects .grid-overlay {
 }
 html:not(.dark) .orbit-ring { border-color: rgba(78,225,160,.07); background: radial-gradient(circle, transparent 60%, rgba(78,225,160,.008) 100%); }
 html:not(.dark) .orbit-ring--inner { border-color: rgba(124,92,255,.05); }
-html:not(.dark) .orbit-icon { background: rgba(243,247,245,.85); border-color: rgba(7,16,20,.08); }
-html:not(.dark) .orbit-icon:hover { background: rgba(243,247,245,.95); }
+html:not(.dark) .orbit-icon { background: rgba(255,255,255,.88); border-color: rgba(7,16,20,.06); }
+html:not(.dark) .orbit-icon:hover { background: rgba(255,255,255,.96); }
 
 /* Header — light */
 html:not(.dark) .site-header {

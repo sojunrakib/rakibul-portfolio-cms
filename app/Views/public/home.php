@@ -101,14 +101,30 @@ $heroImage = asset('img/rakibul-hero.png');
             </div>
           </div>
           <div class="orbit-track">
-            <span class="orbit-icon" style="--gc:61,109,190" aria-label="PHP">PHP</span>
-            <span class="orbit-icon" style="--gc:194,42,75" aria-label="Laravel">Lar</span>
-            <span class="orbit-icon" style="--gc:0,97,185" aria-label="MySQL">SQL</span>
-            <span class="orbit-icon" style="--gc:247,223,30;--tc:#071014" aria-label="JavaScript">JS</span>
-            <span class="orbit-icon" style="--gc:227,76,38" aria-label="HTML5">H5</span>
-            <span class="orbit-icon" style="--gc:56,115,222" aria-label="CSS3">C3</span>
-            <span class="orbit-icon" style="--gc:228,90,40" aria-label="Git">Git</span>
-            <span class="orbit-icon" style="--gc:124,92,255" aria-label="AI / Machine Learning">AI</span>
+            <span class="orbit-icon" style="--gc:61,109,190" aria-label="PHP">
+              <svg viewBox="0 0 48 48"><rect x="6" y="12" width="36" height="24" rx="7" fill="#777BB4"/><text x="24" y="30" text-anchor="middle" fill="#fff" font-size="13" font-weight="800">PHP</text></svg>
+            </span>
+            <span class="orbit-icon" style="--gc:194,42,75" aria-label="Laravel">
+              <svg viewBox="0 0 48 48"><rect x="6" y="12" width="36" height="24" rx="7" fill="#ff2d20"/><text x="24" y="30" text-anchor="middle" fill="#fff" font-size="14" font-weight="800">Lar</text></svg>
+            </span>
+            <span class="orbit-icon" style="--gc:0,97,185" aria-label="MySQL">
+              <svg viewBox="0 0 48 48"><rect x="6" y="12" width="36" height="24" rx="7" fill="#00758f"/><text x="24" y="30" text-anchor="middle" fill="#fff" font-size="13" font-weight="800">SQL</text></svg>
+            </span>
+            <span class="orbit-icon" style="--gc:247,223,30;--tc:#071014" aria-label="JavaScript">
+              <svg viewBox="0 0 48 48"><rect x="5" y="5" width="38" height="38" rx="6" fill="#f7df1e"/><text x="24" y="32" text-anchor="middle" fill="#071014" font-size="13" font-weight="800">JS</text></svg>
+            </span>
+            <span class="orbit-icon" style="--gc:227,76,38" aria-label="HTML5">
+              <svg viewBox="0 0 48 48"><path d="M8 4l3.2 36.4L24 44l12.8-3.6L40 4H8z" fill="#e34f26"/><path d="M33.5 13.6H17.2l.5 5.4h15.3l-.8 8.4-8 2.6-8-2.6-.5-6h5.4l.2 3.3 2.9.9 2.9-.9.4-4.1H14.6l-1-11H35l-.5 5.3z" fill="#fff"/></svg>
+            </span>
+            <span class="orbit-icon" style="--gc:56,115,222" aria-label="CSS3">
+              <svg viewBox="0 0 48 48"><path d="M8 4l3.2 36.4L24 44l12.8-3.6L40 4H8z" fill="#1572b6"/><path d="M33.7 13.6H16.8l.4 5.4h16.1l-.9 9.1-8.4 2.6-8.4-2.6-.5-6h5.4l.2 3.3 3.3.9 3.3-.9.4-4.3H14.1l-1.1-11H35l-.4 5.3z" fill="#fff"/></svg>
+            </span>
+            <span class="orbit-icon" style="--gc:228,90,40" aria-label="Git">
+              <svg viewBox="0 0 48 48"><path d="M28 14c-2.2 0-4 1.8-4 4 0 .5.1 1 .3 1.4l-5.6 3.3c-.8-.5-1.7-.8-2.7-.8-2.5 0-4.5 2-4.5 4.5s2 4.5 4.5 4.5c1 0 1.9-.3 2.7-.8l5.6 3.3c-.2.4-.3.9-.3 1.4 0 2.2 1.8 4 4 4s4-1.8 4-4-1.8-4-4-4c-.9 0-1.8.3-2.4.9L24 24.5l2.6-1.5c.6.6 1.5.9 2.4.9 2.2 0 4-1.8 4-4s-1.8-4-4-4z" fill="#f05032"/></svg>
+            </span>
+            <span class="orbit-icon" style="--gc:124,92,255" aria-label="AI / Machine Learning">
+              <svg viewBox="0 0 48 48"><circle cx="24" cy="14" r="4" fill="rgba(124,92,255,.85)"/><circle cx="14" cy="34" r="3.5" fill="rgba(124,92,255,.65)"/><circle cx="34" cy="34" r="3.5" fill="rgba(124,92,255,.65)"/><line x1="20.5" y1="17" x2="16" y2="31" stroke="rgba(124,92,255,.35)" stroke-width="1.5"/><line x1="27.5" y1="17" x2="32" y2="31" stroke="rgba(124,92,255,.35)" stroke-width="1.5"/><line x1="17.5" y1="34" x2="30.5" y2="34" stroke="rgba(124,92,255,.2)" stroke-width="1"/></svg>
+            </span>
           </div>
         </div>
       </div>
