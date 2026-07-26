@@ -1,0 +1,12 @@
+.env
+/vendor/
+/node_modules/
+/public/uploads/*
+!/public/uploads/.gitkeep
+/storage/cache/*
+!/storage/cache/.gitkeep
+/storage/sessions/*
+!/storage/sessions/.gitkeep
+/storage/uploads/tmp/*
+!/storage/uploads/tmp/.gitkeep
+*.log

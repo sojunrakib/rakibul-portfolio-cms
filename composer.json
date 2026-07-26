@@ -1,0 +1,23 @@
+{
+  "name": "rakibul-hasan/portfolio-cms",
+  "description": "Premium personal portfolio and custom PHP MVC CMS for Rakibul Hasan.",
+  "type": "project",
+  "require": {
+    "php": ">=8.2",
+    "ext-pdo": "*",
+    "ext-json": "*",
+    "ext-fileinfo": "*"
+  },
+  "suggest": {
+    "ext-gd": "Enables server-side image resize and WebP conversion on upload.",
+    "ext-imagick": "Alternative image processor for resize and WebP conversion."
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  },
+  "scripts": {
+    "serve": "php -S localhost:8000 -t public"
+  }
+}
