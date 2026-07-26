@@ -95,6 +95,7 @@ $heroImage = asset('img/rakibul-hero.png');
                 <div class="profile-center__border" aria-hidden="true"></div>
                 <div class="profile-center__glass">
                   <img src="<?= e($heroImage) ?>" alt="Rakibul Hasan — Full Stack Developer" width="1154" height="1408" loading="eager">
+                  <div class="profile-center__cyber" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
                 </div>
               </div>
             </div>
