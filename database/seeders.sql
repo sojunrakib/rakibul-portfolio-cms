@@ -1,3 +1,9 @@
+INSERT INTO blog_categories (name, slug, display_order, is_visible) VALUES
+('Web Development', 'web-development', 1, 1),
+('AI & Machine Learning', 'ai-machine-learning', 2, 1),
+('PHP & MySQL', 'php-mysql', 3, 1),
+('Career & Learning', 'career-learning', 4, 1);
+
 INSERT INTO admins (name, email, password_hash, is_active)
 VALUES ('Rakibul Hasan', 'admin@example.com', '$2y$10$ZjEKYw2Z.zH.VK5Jrla62e8Tjsij9Kh5PYrVc3ji7sZGcEh4MvIr.', 1)
 ON DUPLICATE KEY UPDATE name = VALUES(name);
@@ -8,6 +14,18 @@ AI & ML Enthusiast
 PHP & MySQL Engineer
 Freelance Web Developer', 'Dhaka, Bangladesh', '4th-year Computer Science & Engineering student at ULAB, currently building production e-commerce systems in raw PHP & MySQL at Hexazn — with a growing specialization in AI/ML.', 'View Projects', '#portfolio', 'Download Resume', '/resume')
 ON DUPLICATE KEY UPDATE name = VALUES(name), designations = VALUES(designations), location_tag = VALUES(location_tag), intro = VALUES(intro);
+
+INSERT INTO hero_designations (title, display_order, is_visible) VALUES
+('Full-Stack Developer', 1, 1),
+('AI & ML Enthusiast', 2, 1),
+('PHP & MySQL Engineer', 3, 1),
+('Freelance Web Developer', 4, 1);
+
+INSERT INTO profile_images (image_path, alt_text, display_order, is_visible) VALUES
+('assets/img/rakibul-hero.png', 'Rakibul Hasan — Full Stack Developer', 1, 1);
+
+INSERT INTO portfolio_views (id, view_count) VALUES (1, 0)
+ON DUPLICATE KEY UPDATE id = id;
 
 INSERT INTO about_content (id, summary, stats_json)
 VALUES (1, 'Results-driven Computer Science & Engineering student (4th Year) at the University of Liberal Arts Bangladesh, currently interning as a Full-Stack Web Developer at Hexazn — building a production E-Commerce website from scratch using Raw PHP, MySQL, and live cPanel server deployment. Skilled in designing custom theme-based CMS systems, database architecture, and end-to-end server management. Additional expertise in digital marketing (SEO) and AI/ML (Python, TensorFlow). Proven ability to lead projects, deliver client-ready solutions, and apply Agile methodologies. Passionate about building scalable software products and continuously expanding technical knowledge.', '[{"value":"3+","label":"Years Hands-on Experience"},{"value":"2","label":"Major Projects Shipped"},{"value":"5","label":"Skill Domains"},{"value":"4th","label":"Year CSE Student"}]')

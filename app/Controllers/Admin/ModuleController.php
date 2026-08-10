@@ -161,7 +161,13 @@ final class ModuleController
             Response::redirect('/admin');
         }
 
-        return $this->modules[$module];
+        $config = $this->modules[$module];
+        if (($config['table'] ?? '') === 'blog_posts' && isset($config['fields']['category_id'])) {
+            $categories = \App\Core\App::get('db')->select('SELECT id, name FROM blog_categories ORDER BY display_order ASC, name ASC');
+            $config['fields']['category_id']['options'] = array_column($categories, 'name', 'id');
+        }
+
+        return $config;
     }
 
     private function guardCsrf(Request $request): void

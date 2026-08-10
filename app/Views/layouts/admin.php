@@ -21,7 +21,10 @@
     <main class="admin-main">
       <header class="admin-topbar">
         <div><p>Signed in as</p><strong><?= e($user['name'] ?? 'Admin') ?></strong></div>
-        <form method="post" action="/admin/logout"><?= csrf_field() ?><button type="submit">Logout</button></form>
+        <div class="topbar-actions">
+          <a class="admin-button muted" href="<?= e(url('/')) ?>">View Portfolio</a>
+          <form method="post" action="/admin/logout"><?= csrf_field() ?><button type="submit">Logout</button></form>
+        </div>
       </header>
       <?php foreach (flash() as $type => $message): ?><div class="admin-flash <?= e($type) ?>"><?= e($message) ?></div><?php endforeach; ?>
       <?= $content ?>

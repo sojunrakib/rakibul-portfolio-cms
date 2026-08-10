@@ -9,13 +9,33 @@ return [
         'order' => 'id',
         'fields' => [
             'name' => ['label' => 'Name', 'type' => 'text', 'required' => true],
-            'designations' => ['label' => 'Rotating Designations', 'type' => 'textarea', 'hint' => 'One title per line or arrow-separated.'],
             'location_tag' => ['label' => 'Location Tag', 'type' => 'text'],
             'intro' => ['label' => 'Short Intro', 'type' => 'textarea'],
             'primary_cta_label' => ['label' => 'Primary CTA Label', 'type' => 'text'],
             'primary_cta_target' => ['label' => 'Primary CTA Target', 'type' => 'text'],
             'secondary_cta_label' => ['label' => 'Secondary CTA Label', 'type' => 'text'],
             'secondary_cta_target' => ['label' => 'Secondary CTA Target', 'type' => 'text'],
+        ],
+    ],
+    'hero_designations' => [
+        'label' => 'Hero Designations',
+        'table' => 'hero_designations',
+        'order' => 'display_order',
+        'fields' => [
+            'title' => ['label' => 'Title', 'type' => 'text', 'required' => true],
+            'display_order' => ['label' => 'Display Order', 'type' => 'number'],
+            'is_visible' => ['label' => 'Visible', 'type' => 'checkbox'],
+        ],
+    ],
+    'profile_images' => [
+        'label' => 'Profile Images',
+        'table' => 'profile_images',
+        'order' => 'display_order',
+        'fields' => [
+            'image_path' => ['label' => 'Image', 'type' => 'image', 'required' => true],
+            'alt_text' => ['label' => 'Alt Text', 'type' => 'text'],
+            'display_order' => ['label' => 'Display Order', 'type' => 'number'],
+            'is_visible' => ['label' => 'Visible', 'type' => 'checkbox'],
         ],
     ],
     'about' => [
@@ -157,11 +177,23 @@ return [
         'fields' => [
             'title' => ['label' => 'Title', 'type' => 'text', 'required' => true],
             'slug' => ['label' => 'Slug', 'type' => 'text'],
+            'category_id' => ['label' => 'Category', 'type' => 'select', 'options' => []],
             'excerpt' => ['label' => 'Excerpt', 'type' => 'textarea'],
             'content' => ['label' => 'Rich Text Content', 'type' => 'textarea'],
             'featured_image' => ['label' => 'Featured Image', 'type' => 'image'],
             'status' => ['label' => 'Status', 'type' => 'select', 'options' => ['draft' => 'Draft', 'published' => 'Published']],
             'published_at' => ['label' => 'Published At', 'type' => 'datetime-local'],
+        ],
+    ],
+    'blog_categories' => [
+        'label' => 'Blog Categories',
+        'table' => 'blog_categories',
+        'order' => 'display_order',
+        'fields' => [
+            'name' => ['label' => 'Name', 'type' => 'text', 'required' => true],
+            'slug' => ['label' => 'Slug', 'type' => 'text', 'required' => true],
+            'display_order' => ['label' => 'Display Order', 'type' => 'number'],
+            'is_visible' => ['label' => 'Visible', 'type' => 'checkbox'],
         ],
     ],
     'messages' => [

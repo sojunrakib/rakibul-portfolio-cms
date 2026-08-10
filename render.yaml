@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: rakibul-portfolio-cms
+    env: php
+    plan: free
+    buildCommand: composer install --no-dev --optimize-autoloader
+    startCommand: php -S 0.0.0.0:$PORT -t public public/router.php
+    healthCheckPath: /
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_URL
+        value: https://your-app-name.onrender.com
+      - key: APP_SECURE_COOKIES
+        value: true

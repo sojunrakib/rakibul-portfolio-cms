@@ -4,6 +4,7 @@
     <h1>Dashboard</h1>
   </div>
   <div class="stats-row">
+    <article><span>Portfolio Views</span><strong><?= e($stats['views']) ?></strong></article>
     <article><span>Projects</span><strong><?= e($stats['projects']) ?></strong></article>
     <article><span>Skills</span><strong><?= e($stats['skills']) ?></strong></article>
     <article><span>Messages</span><strong><?= e($stats['messages']) ?></strong></article>

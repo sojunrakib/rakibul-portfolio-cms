@@ -15,6 +15,8 @@ use App\Core\Router;
 $router = new Router();
 
 $router->get('/', [HomeController::class, 'index']);
+$router->get('/blog', [HomeController::class, 'blog']);
+$router->get('/blog/{slug}', [HomeController::class, 'blogDetails']);
 $router->post('/contact', [ContactController::class, 'store']);
 $router->get('/resume', [HomeController::class, 'resume']);
 $router->get('/sitemap.xml', [HomeController::class, 'sitemap']);

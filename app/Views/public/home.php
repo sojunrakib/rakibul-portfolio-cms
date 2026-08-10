@@ -1,11 +1,30 @@
 <?php
-$designations = array_values(array_filter(array_map('trim', preg_split('/\R|→/', $hero['designations'] ?? 'Full-Stack Developer') ?: [])));
+$designations = array_values(array_filter(array_map('trim', array_filter((array) ($designations ?? []), static fn ($d) => is_string($d)))));
+if ($designations === []) {
+    $designations = ['Full-Stack Developer'];
+}
 $skillGroups = [];
 foreach ($skills as $skill) {
     $skillGroups[$skill['category']][] = $skill;
 }
 $stats = json_decode($about['stats_json'] ?? '[]', true) ?: [];
-$heroImage = asset('img/rakibul-hero.png');
+$profileImages = array_values(array_filter((array) ($profileImages ?? []), static fn ($i) => !empty($i['image_path'])));
+foreach ($profileImages as &$profileImageRow) {
+    $imagePath = $profileImageRow['image_path'];
+    $profileImageRow['src'] = str_starts_with($imagePath, 'assets/')
+        ? asset(substr($imagePath, strlen('assets/')))
+        : storage_url($imagePath);
+    $profileImageRow['alt'] = trim((string) ($profileImageRow['alt_text'] ?? ''));
+    if ($profileImageRow['alt'] === '') {
+        $profileImageRow['alt'] = 'Rakibul Hasan — Full Stack Developer';
+    }
+}
+unset($profileImageRow);
+$heroImageFallback = asset('img/rakibul-hero.png');
+$secondaryCtaLabel = trim($hero['secondary_cta_label'] ?? '');
+if ($secondaryCtaLabel === '' || strcasecmp($secondaryCtaLabel, 'Download Resume') === 0) {
+    $secondaryCtaLabel = 'Download CV';
+}
 ?>
 <header class="site-header" data-header>
   <nav class="nav-shell" aria-label="Primary navigation">
@@ -13,8 +32,8 @@ $heroImage = asset('img/rakibul-hero.png');
     <button class="icon-button nav-toggle" type="button" data-nav-toggle aria-label="Open navigation"><span></span><span></span></button>
     <div class="nav-links" data-nav-menu>
       <?php foreach (($navSections ?? []) as $id => $label): ?>
-        <?php if (in_array($id, ['portfolio', 'testimonials', 'faq', 'contact'], true)) { continue; } ?>
-        <a href="#<?= e($id) ?>"><?= e($label) ?></a>
+        <?php if (in_array($id, ['testimonials', 'faq', 'contact'], true)) { continue; } ?>
+        <a href="<?= $id === 'blog' ? e(url('/blog')) : e('#' . $id) ?>"><?= e($label) ?></a>
       <?php endforeach; ?>
       <button class="icon-button" type="button" data-theme-toggle aria-label="Toggle dark mode">◐</button>
     </div>
@@ -27,11 +46,11 @@ $heroImage = asset('img/rakibul-hero.png');
       <div class="hero-copy reveal">
     
         <h1><?= e($hero['name'] ?? 'Rakibul Hasan') ?></h1>
-        <p class="role-line">I build as a <span data-rotator data-words='<?= e(json_encode($designations, JSON_THROW_ON_ERROR)) ?>'><?= e($designations[0] ?? 'Full-Stack Developer') ?></span></p>
+        <p class="role-line">I am a <span data-rotator data-words='<?= e(json_encode($designations, JSON_THROW_ON_ERROR)) ?>'><?= e($designations[0] ?? 'Full-Stack Developer') ?></span></p>
         <p class="hero-intro"><?= e($hero['intro'] ?? '') ?></p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="<?= e($hero['primary_cta_target'] ?? '#portfolio') ?>"><?= e($hero['primary_cta_label'] ?? 'View Projects') ?></a>
-          <a class="btn btn-ghost" href="<?= e($hero['secondary_cta_target'] ?? '/resume') ?>"><?= e($hero['secondary_cta_label'] ?? 'Download Resume') ?></a>
+          <a class="btn btn-ghost" href="<?= e($hero['secondary_cta_target'] ?? '/resume') ?>"><?= e($secondaryCtaLabel) ?></a>
         </div>
         <div class="social-row" aria-label="Social links">
           <?php foreach ($socials as $social):
@@ -65,6 +84,8 @@ $heroImage = asset('img/rakibul-hero.png');
               $icon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.302 3.438 9.8 8.205 11.387.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61-.546-1.387-1.333-1.757-1.333-1.757-1.09-.745.084-.73.084-.73 1.205.085 1.84 1.236 1.84 1.236 1.07 1.835 2.807 1.305 3.492.998.108-.776.418-1.305.76-1.605-2.665-.3-5.467-1.332-5.467-5.93 0-1.31.47-2.381 1.236-3.221-.124-.302-.536-1.52.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.98-.399 3-.405 1.02.006 2.043.139 3 .405 2.291-1.552 3.297-1.23 3.297-1.23.655 1.656.243 2.874.12 3.176.77.84 1.235 1.911 1.235 3.221 0 4.61-2.807 5.625-5.48 5.92.43.372.823 1.102.823 2.222 0 1.606-.014 2.898-.014 3.293 0 .32.216.694.825.576C20.565 22.092 24 17.592 24 12.297 24 5.67 18.627.297 12 .297z"/></svg>';
             } elseif ($platform === 'email' || $platform === 'mail') {
               $icon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5.5A2.5 2.5 0 014.5 3h15A2.5 2.5 0 0122 5.5v13a2.5 2.5 0 01-2.5 2.5h-15A2.5 2.5 0 012 18.5v-13zm2.5-.5a.5.5 0 00-.5.5v.34l7.5 4.8 7.5-4.8V5.5a.5.5 0 00-.5-.5h-15zm15 2.46l-7.37 4.71a1 1 0 01-1.26 0L4.5 7.46V18.5a.5.5 0 00.5.5h15a.5.5 0 00.5-.5V7.46z"/></svg>';
+            } elseif ($platform === 'scholar' || $platform === 'google scholar' || $platform === 'google-scholar') {
+              $icon = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2 2 7l10 5 10-5-10-5zm0 1.8 7.9 3.95L12 11.7 4.1 7.75 12 3.8z" fill="currentColor"/><path d="M4 9.5v2.5c0 4 3.4 7.5 8 7.5s8-3.5 8-7.5V9.5l-8 4-8-4z" fill="currentColor"/><path d="M12 13.5a1.5 1.5 0 0 1 1.5 1.5v3h-3v-3A1.5 1.5 0 0 1 12 13.5z" fill="currentColor"/></svg>';
             }
           ?>
             <a href="<?= e($href) ?>" class="social-link" aria-label="<?= e($label) ?>"<?= $extra ?>>
@@ -89,15 +110,14 @@ $heroImage = asset('img/rakibul-hero.png');
             <span class="orbit-dot orbit-dot--accent"></span>
           </div>
           <div class="profile-center" data-profile>
-            <div class="profile-float">
-              <div class="profile-tilt" data-tilt>
-                <div class="profile-center__glow" aria-hidden="true"></div>
-                <div class="profile-center__border" aria-hidden="true"></div>
-                <div class="profile-center__glass">
-                  <img src="<?= e($heroImage) ?>" alt="Rakibul Hasan — Full Stack Developer" width="1154" height="1408" loading="eager">
-                  <div class="profile-center__cyber" aria-hidden="true"><span></span><span></span><span></span><span></span></div>
-                </div>
-              </div>
+            <div class="profile-tilt" data-tilt>
+              <?php if (count($profileImages) <= 1): ?>
+                <img src="<?= e($profileImages[0]['src'] ?? $heroImageFallback) ?>" alt="<?= e($profileImages[0]['alt'] ?? 'Rakibul Hasan — Full Stack Developer') ?>" width="1154" height="1408" loading="eager">
+              <?php else: ?>
+                <?php foreach ($profileImages as $profileIndex => $profileImageRow): ?>
+                  <img class="profile-slide<?= $profileIndex === 0 ? ' is-active' : '' ?>" src="<?= e($profileImageRow['src']) ?>" alt="<?= e($profileImageRow['alt']) ?>" width="1154" height="1408" <?= $profileIndex === 0 ? 'loading="eager"' : 'loading="lazy"' ?> data-profile-slide>
+                <?php endforeach; ?>
+              <?php endif; ?>
             </div>
           </div>
           <div class="orbit-track">
@@ -269,8 +289,11 @@ $heroImage = asset('img/rakibul-hero.png');
           <div class="tag-row">
             <?php foreach ($project['technologies'] as $tech): ?><span><?= e($tech['technology']) ?></span><?php endforeach; ?>
           </div>
+          <?php if (!empty($project['live_url'])): ?>
+            <a class="text-link" href="<?= e($project['live_url']) ?>" target="_blank" rel="noopener">Live Demo</a>
+          <?php endif; ?>
           <?php if (!empty($project['github_url'])): ?>
-            <a class="text-link" href="<?= e($project['github_url']) ?>" target="_blank" rel="noopener"><?= e($project['github_url']) ?></a>
+            <a class="text-link" href="<?= e($project['github_url']) ?>" target="_blank" rel="noopener">GitHub</a>
           <?php endif; ?>
         </article>
       <?php endforeach; ?>
@@ -282,8 +305,47 @@ $heroImage = asset('img/rakibul-hero.png');
       <p class="eyebrow">Technology Stack</p>
       <h2></h2>
     </div>
-    <div class="logo-grid">
-      <?php foreach ($techStack as $tech): ?><span><?= e($tech['name']) ?></span><?php endforeach; ?>
+    <div class="stack-tabs" role="tablist" aria-label="Filter technologies">
+      <button class="stack-tab active" data-filter="all" role="tab" aria-selected="true">All</button>
+      <button class="stack-tab" data-filter="languages" role="tab" aria-selected="false">Languages</button>
+      <button class="stack-tab" data-filter="backend" role="tab" aria-selected="false">Backend</button>
+      <button class="stack-tab" data-filter="database" role="tab" aria-selected="false">Database</button>
+      <button class="stack-tab" data-filter="aiml" role="tab" aria-selected="false">AI/ML</button>
+      <button class="stack-tab" data-filter="devops" role="tab" aria-selected="false">DevOps</button>
+    </div>
+    <div class="stack-grid-wrap">
+      <canvas id="stackNetCanvas" aria-hidden="true"></canvas>
+      <div class="stack-grid" id="stackGrid">
+        <?php
+        $techs = [
+          ['name' => 'Python',      'cat' => 'languages', 'hue' => 207, 'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3c-3 0-4.5 1.5-4.5 4v3h5v1H3.5C1.5 11 0 13 0 16.5S1.5 22 3.5 22h2v-2.5c0-2 1.5-3.5 3.5-3.5h5c2 0 3.5-1.5 3.5-3.5V7c0-2.5-2-4-4.5-4H9z"/><path d="M15 21c3 0 4.5-1.5 4.5-4v-3h-5v-1h6c2 0 3.5-2 3.5-5.5S22.5 2 20.5 2h-2v2.5c0 2-1.5 3.5-3.5 3.5h-5c-2 0-3.5 1.5-3.5 3.5V17c0 2.5 2 4 4.5 4h5z"/></svg>'],
+          ['name' => 'JavaScript',   'cat' => 'languages', 'hue' => 54, 'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M14 9c0-1.1-.9-2-2-2h-1a2 2 0 00-2 2v3c0 1.1.9 2 2 2h1a2 2 0 002-2m-2 5v3m4-6c0-1.1-.9-2-2-2h-1a2 2 0 00-2 2"/></svg>'],
+          ['name' => 'PHP',         'cat' => 'languages', 'hue' => 250, 'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M7 9v6m3-6v6m0-3h2.5a1.5 1.5 0 001.5-1.5v-1A1.5 1.5 0 0012.5 8H10m4 4l2 4"/></svg>'],
+          ['name' => 'Laravel',     'cat' => 'backend',   'hue' => 4, 'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/><path d="M12 12l5-2.5"/></svg>'],
+          ['name' => 'MySQL',       'cat' => 'database',  'hue' => 207, 'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v7c0 1.66 4 3 9 3s9-1.34 9-3V5"/><path d="M3 12v7c0 1.66 4 3 9 3s9-1.34 9-3v-7"/></svg>'],
+          ['name' => 'Bootstrap',   'cat' => 'backend',   'hue' => 270, 'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 7v5l10 5 10-5V7"/><path d="M8 12h8m-4-3v6"/></svg>'],
+          ['name' => 'TensorFlow',  'cat' => 'aiml',      'hue' => 24, 'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"/><path d="M12 12l8-4"/><path d="M12 12l-8-4"/><path d="M12 12l8 4"/><path d="M12 12l-8 4"/><path d="M12 6v12"/></svg>'],
+          ['name' => 'PyTorch',     'cat' => 'aiml',      'hue' => 10, 'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l-6 6a8.5 8.5 0 1012 0L12 3z"/><circle cx="12" cy="3" r="1.5"/></svg>'],
+          ['name' => 'Scikit-learn','cat' => 'aiml',      'hue' => 28, 'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 4"/><circle cx="12" cy="12" r="2"/></svg>'],
+          ['name' => 'OpenAI',      'cat' => 'aiml',      'hue' => 265, 'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6z"/><path d="M12 9c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3z"/></svg>'],
+          ['name' => 'Docker',      'cat' => 'devops',    'hue' => 207, 'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="8" width="4" height="4"/><rect x="9" y="8" width="4" height="4"/><rect x="14" y="8" width="4" height="4"/><rect x="9" y="13" width="4" height="4"/><rect x="14" y="13" width="4" height="4"/><path d="M4 13h4v4H4z"/><path d="M1 12h4"/></svg>'],
+          ['name' => 'Git',         'cat' => 'devops',    'hue' => 10, 'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><circle cx="18" cy="6" r="3"/><path d="M12 3v13a5 5 0 005 5h1"/><path d="M8 9l4.5 4.5"/></svg>'],
+          ['name' => 'Linux',       'cat' => 'devops',    'hue' => 48, 'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M8 14c1.5-2 4-2 4-2s2.5 0 4 2m-6 3c.67.5 2 .5 3 0"/><path d="M9 9c.5-1 1.5-1 2 0m2 0c.5-1 1.5-1 2 0"/></svg>'],
+          ['name' => 'VS Code',     'cat' => 'devops',    'hue' => 207, 'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3L5 8l-3 4 3 4 11 5V3z"/><path d="M16 12h6"/><path d="M10 9l-3 3 3 3"/></svg>'],
+          ['name' => 'Jupyter',     'cat' => 'devops',    'hue' => 24, 'icon' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/><circle cx="12" cy="12" r="2"/><path d="M8 5c-.5 2-1 3-2 4"/><path d="M16 5c.5 2 1 3 2 4"/></svg>'],
+        ];
+        foreach ($techs as $t):
+        ?>
+        <div class="tech-card reveal-child" data-cat="<?= $t['cat'] ?>">
+          <div class="tech-card__glow"></div>
+          <div class="tech-card__shine"></div>
+          <div class="tech-card__icon" style="--th:<?= $t['hue'] ?>">
+            <?= $t['icon'] ?>
+          </div>
+          <span class="tech-card__name"><?= $t['name'] ?></span>
+        </div>
+        <?php endforeach; ?>
+      </div>
     </div>
   </section>
 
@@ -314,11 +376,10 @@ $heroImage = asset('img/rakibul-hero.png');
     </section>
   <?php endif; ?>
 
-  <?php if ($research): ?>
     <section id="research" class="section-band reveal">
       <div class="section-head compact">
         <p class="eyebrow">Research</p>
-        <h2>Research and publications.</h2>
+        <h2></h2>
       </div>
       <div class="content-grid">
         <?php foreach ($research as $paper): ?>
@@ -331,26 +392,6 @@ $heroImage = asset('img/rakibul-hero.png');
         <?php endforeach; ?>
       </div>
     </section>
-  <?php endif; ?>
-
-  <?php if (!empty($blogPosts)): ?>
-    <section id="blog" class="section-band reveal">
-      <div class="section-head compact">
-        <p class="eyebrow">Blog</p>
-        <h2>Notes from the build process.</h2>
-      </div>
-      <div class="content-grid">
-        <?php foreach ($blogPosts as $post): ?>
-          <article class="content-card reveal-child">
-            <?php if (!empty($post['featured_image'])): ?><img src="<?= e(storage_url($post['featured_image'])) ?>" alt="<?= e($post['title']) ?>" loading="lazy"><?php endif; ?>
-            <h3><?= e($post['title']) ?></h3>
-            <?php if (!empty($post['excerpt'])): ?><p><?= e($post['excerpt']) ?></p><?php endif; ?>
-            <?php if (!empty($post['published_at'])): ?><small><?= e(date('M d, Y', strtotime($post['published_at']))) ?></small><?php endif; ?>
-          </article>
-        <?php endforeach; ?>
-      </div>
-    </section>
-  <?php endif; ?>
 
   <?php if ($testimonials): ?>
     <section id="testimonials" class="section-band reveal">
@@ -407,5 +448,4 @@ $heroImage = asset('img/rakibul-hero.png');
     <a href="#contact">Contact</a>
   </div>
   <span>© <?= date('Y') ?> <?= e(setting($settings, 'site_name', 'Rakibul Hasan')) ?></span>
-  <a href="/admin">Admin</a>
 </footer>

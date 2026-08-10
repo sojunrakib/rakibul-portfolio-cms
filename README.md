@@ -31,6 +31,10 @@ Default admin login:
 
 Change the admin email/password immediately after first login.
 
+## Deployment
+
+For GitHub + Render deployment steps, see [DEPLOYMENT.md](DEPLOYMENT.md).
+
 ## Notes
 
 - Placeholder social/contact values such as `[ADD EMAIL ADDRESS]`, `[ADD LINKEDIN URL]`, and `[ADD GITHUB URL]` are seeded intentionally and editable in the admin panel.

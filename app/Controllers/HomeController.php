@@ -20,6 +20,11 @@ final class HomeController
             return view('public/maintenance', ['title' => 'Maintenance', 'settings' => $data['settings']]);
         }
 
+        if (!isset($_SESSION['portfolio_viewed'])) {
+            App::get('db')->execute('UPDATE portfolio_views SET view_count = view_count + 1 WHERE id = 1');
+            $_SESSION['portfolio_viewed'] = true;
+        }
+
         $navSections = [
             'about' => 'About',
             'skills' => 'Skills',
@@ -36,6 +41,78 @@ final class HomeController
         ];
 
         return view('public/home', $data + ['title' => $data['seo']['title'] ?? 'Rakibul Hasan', 'navSections' => $navSections]);
+    }
+
+    public function blog(Request $request): string
+    {
+        $portfolioModel = new PortfolioModel();
+        $categorySlug = trim((string) $request->input('category', ''));
+        $category = ($categorySlug !== '') ? $portfolioModel->blogCategoryBySlug($categorySlug) : null;
+
+        $data = $portfolioModel->siteData();
+        $posts = $portfolioModel->blogPostsByCategory($categorySlug);
+        $pageTitle = $category !== null ? 'Blog — ' . $category['name'] : 'Blog';
+
+        $navSections = [
+            'about' => 'About',
+            'skills' => 'Skills',
+            'experience' => 'Experience',
+            'education' => 'Education',
+            'portfolio' => 'Projects',
+            'stack' => 'Tech Stack',
+            'certificates' => 'Certificates',
+            'research' => 'Research',
+            'blog' => 'Blog',
+            'testimonials' => 'Testimonials',
+            'faq' => 'FAQ',
+            'contact' => 'Contact',
+        ];
+
+        return view('public/blog', $data + [
+            'title' => $pageTitle,
+            'seo' => array_merge($data['seo'] ?? [], ['title' => $pageTitle]),
+            'navSections' => $navSections,
+            'posts' => $posts,
+            'categories' => $portfolioModel->blogCategories(),
+            'activeCategory' => $category,
+            'categorySlug' => $categorySlug,
+        ]);
+    }
+
+    public function blogDetails(Request $request, string $slug): string
+    {
+        $portfolioModel = new PortfolioModel();
+        $post = $portfolioModel->blogPostBySlug($slug);
+
+        if ($post === null) {
+            http_response_code(404);
+            return view('public/404', ['title' => 'Page not found']);
+        }
+
+        $data = $portfolioModel->siteData();
+        $pageTitle = $post['title'] . ' — Blog';
+
+        $navSections = [
+            'about' => 'About',
+            'skills' => 'Skills',
+            'experience' => 'Experience',
+            'education' => 'Education',
+            'portfolio' => 'Projects',
+            'stack' => 'Tech Stack',
+            'certificates' => 'Certificates',
+            'research' => 'Research',
+            'blog' => 'Blog',
+            'testimonials' => 'Testimonials',
+            'faq' => 'FAQ',
+            'contact' => 'Contact',
+        ];
+
+        return view('public/blog_details', $data + [
+            'title' => $pageTitle,
+            'seo' => array_merge($data['seo'] ?? [], ['title' => $pageTitle, 'description' => $post['excerpt'] ?? '']),
+            'navSections' => $navSections,
+            'post' => $post,
+        ]);
     }
 
     public function resume(Request $request): never
