@@ -11,5 +11,25 @@ services:
         value: production
       - key: APP_URL
         value: https://your-app-name.onrender.com
+      - key: APP_KEY
+        value: replace-with-a-long-random-string
       - key: APP_SECURE_COOKIES
         value: true
+      - key: DB_HOST
+        value: your-database-host
+      - key: DB_PORT
+        value: '3306'
+      - key: DB_NAME
+        value: your-database-name
+      - key: DB_USER
+        value: your-database-user
+      - key: DB_PASS
+        value: your-database-password
+      - key: MAIL_FROM
+        value: no-reply@example.com
+      - key: MAIL_TO
+        value: admin@example.com
+      - key: ADMIN_EMAIL
+        value: admin@example.com
+      - key: ADMIN_PASSWORD
+        value: ChangeMe123!

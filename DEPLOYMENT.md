@@ -46,7 +46,7 @@ ADMIN_PASSWORD=ChangeMe123!
 
 ## 3. Create the database
 
-Use a Render PostgreSQL/MySQL-compatible database service or any external MySQL provider.
+Use a Render MySQL service or any external MySQL-compatible provider.
 
 Import the SQL files:
 
@@ -60,11 +60,38 @@ mysql -u <user> -p <database_name> < database/seeders.sql
 1. Go to Render.
 2. Click New > Web Service.
 3. Connect the GitHub repository.
-4. Use the following settings:
+4. Choose `GitHub` and select the repository.
+5. Choose branch `main`.
+6. Use these settings:
    - Build Command: `composer install --no-dev --optimize-autoloader`
    - Start Command: `php -S 0.0.0.0:$PORT -t public public/router.php`
-5. Add the environment variables above.
-6. Deploy.
+   - Health Check Path: `/`
+7. Add the environment variables from section 2 in Render's service settings.
+8. Deploy.
+
+### Render environment variables
+
+Set these values in Render:
+
+```text
+APP_ENV=production
+APP_URL=https://your-app-name.onrender.com
+APP_KEY=replace-with-a-long-random-string
+APP_SECURE_COOKIES=true
+
+DB_HOST=your-database-host
+DB_PORT=3306
+DB_NAME=your-database-name
+DB_USER=your-database-user
+DB_PASS=your-database-password
+
+MAIL_FROM=no-reply@example.com
+MAIL_TO=admin@example.com
+ADMIN_EMAIL=admin@example.com
+ADMIN_PASSWORD=ChangeMe123!
+```
+
+If you use Render's MySQL add-on, set `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, and `DB_PASS` to the credentials Render generates.
 
 ## 5. Important notes
 
