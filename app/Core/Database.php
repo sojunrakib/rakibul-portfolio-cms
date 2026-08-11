@@ -49,7 +49,7 @@ final class Database
             $port = $this->config['port'] ?? 'unknown';
             $dbname = $this->config['name'] ?? 'unknown';
             $missing = $this->config['pass'] === ''
-                ? ' Database password is empty or not set. Provide DB_PASS, DB_PASSWORD, MYSQL_PASSWORD, or DATABASE_URL.'
+                ? ' Database password is empty or not set. Provide DB_PASS, DB_PASSWORD, MYSQL_PASSWORD, DATABASE_URL, or rename any generic Password key to DB_PASS.'
                 : '';
 
             throw new RuntimeException(

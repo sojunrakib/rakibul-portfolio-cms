@@ -66,7 +66,7 @@ return [
     'port' => $envAny(['DB_PORT', 'MYSQL_PORT', 'MYSQLPORT'], $urlConfig['port'] ?? '3306'),
     'name' => $envAny(['DB_NAME', 'MYSQL_DATABASE', 'MYSQLDATABASE'], $urlConfig['name'] ?? 'rakibul_portfolio'),
     'user' => $envAny(['DB_USER', 'MYSQL_USER', 'MYSQLUSER'], $urlConfig['user'] ?? 'root'),
-    'pass' => $envAny(['DB_PASS', 'DB_PASSWORD', 'MYSQL_PASSWORD', 'MYSQLPASSWORD'], $urlConfig['pass'] ?? ''),
+    'pass' => $envAny(['DB_PASS', 'DB_PASSWORD', 'MYSQL_PASSWORD', 'MYSQLPASSWORD', 'Password', 'PASSWORD'], $urlConfig['pass'] ?? ''),
     'charset' => 'utf8mb4',
     'ssl' => $sslEnabled,
     'ssl_ca' => $envAny(['DB_SSL_CA', 'MYSQL_SSL_CA'], null),
