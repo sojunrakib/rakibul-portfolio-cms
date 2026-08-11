@@ -8,7 +8,9 @@ use App\Core\Database;
 $composer = dirname(__DIR__) . '/vendor/autoload.php';
 if (is_file($composer)) {
     require $composer;
-} else {
+}
+
+if (!class_exists(App::class, true)) {
     spl_autoload_register(static function (string $class): void {
         $prefix = 'App\\';
         if (!str_starts_with($class, $prefix)) {
@@ -20,6 +22,14 @@ if (is_file($composer)) {
             require $path;
         }
     });
+}
+
+if (!class_exists(App::class, false)) {
+    require __DIR__ . '/Core/App.php';
+}
+
+if (!class_exists(Database::class, false)) {
+    require __DIR__ . '/Core/Database.php';
 }
 
 $basePath = dirname(__DIR__);
