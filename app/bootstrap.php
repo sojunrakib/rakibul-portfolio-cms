@@ -59,7 +59,10 @@ if (is_file($envPath)) {
     }
 }
 
-$secureCookies = filter_var($_ENV['APP_SECURE_COOKIES'] ?? false, FILTER_VALIDATE_BOOLEAN);
+$secureCookies = filter_var(
+    $_ENV['APP_SECURE_COOKIES'] ?? getenv('APP_SECURE_COOKIES') ?? false,
+    FILTER_VALIDATE_BOOLEAN
+);
 session_set_cookie_params([
     'lifetime' => 0,
     'path' => '/',
