@@ -34,4 +34,21 @@ $router->post('/admin/{module}/{id}/update', [ModuleController::class, 'update']
 $router->post('/admin/{module}/{id}/delete', [ModuleController::class, 'delete']);
 $router->post('/admin/{module}/reorder', [ModuleController::class, 'reorder']);
 
-echo $router->dispatch(new Request());
+try {
+    echo $router->dispatch(new Request());
+} catch (Throwable $exception) {
+    error_log($exception);
+
+    $config = app('config') ?? [];
+    $isLocal = ($config['env'] ?? 'production') === 'local';
+    http_response_code(500);
+
+    if ($isLocal) {
+        echo '<pre style="white-space:pre-wrap;font:14px/1.5 monospace;padding:24px;color:#f8fbf9;background:#071014">';
+        echo e($exception->getMessage()) . "\n\n" . e($exception->getTraceAsString());
+        echo '</pre>';
+        exit;
+    }
+
+    echo '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Service unavailable</title></head><body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#071014;color:#effff8;font-family:system-ui,sans-serif"><main style="max-width:560px;padding:24px"><p style="color:#4ee1a0;text-transform:uppercase;font-weight:800;letter-spacing:.12em">Portfolio CMS</p><h1>Service temporarily unavailable.</h1><p style="color:#9fb4bc;line-height:1.7">The site could not connect to its database. Please check the production environment variables and database import.</p></main></body></html>';
+}

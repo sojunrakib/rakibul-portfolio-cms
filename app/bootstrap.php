@@ -55,7 +55,13 @@ if (is_file($envPath)) {
             continue;
         }
         [$key, $value] = explode('=', $line, 2);
-        $_ENV[trim($key)] = trim($value);
+        $key = trim($key);
+        $value = trim($value, " \t\n\r\0\x0B\"'");
+
+        if (getenv($key) === false && !array_key_exists($key, $_ENV)) {
+            $_ENV[$key] = $value;
+            putenv($key . '=' . $value);
+        }
     }
 }
 
