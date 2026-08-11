@@ -37,7 +37,7 @@ $router->post('/admin/{module}/reorder', [ModuleController::class, 'reorder']);
 try {
     echo $router->dispatch(new Request());
 } catch (Throwable $exception) {
-    error_log($exception);
+    error_log((string) $exception);
 
     $config = app('config') ?? [];
     $isLocal = ($config['env'] ?? 'production') === 'local';
