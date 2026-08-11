@@ -37,7 +37,21 @@ final class Database
                 PDO::ATTR_EMULATE_PREPARES => false,
             ]);
         } catch (PDOException $exception) {
-            throw new RuntimeException('Database connection failed. Check .env credentials and import database/migrations.sql.', 0, $exception);
+            $host = $this->config['host'] ?? 'unknown';
+            $port = $this->config['port'] ?? 'unknown';
+            $dbname = $this->config['name'] ?? 'unknown';
+
+            throw new RuntimeException(
+                sprintf(
+                    'Database connection failed (mysql://%s:%s/%s): %s. Verify DB_HOST, DB_PORT, DB_NAME, DB_USER, and DB_PASS in the environment and import database/migrations.sql. On Render, 127.0.0.1:3306 only works if you bundle MySQL in the container; otherwise DB_HOST must point to an external database.',
+                    $host,
+                    $port,
+                    $dbname,
+                    $exception->getMessage()
+                ),
+                0,
+                $exception
+            );
         }
 
         return $this->pdo;
