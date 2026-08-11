@@ -48,11 +48,13 @@ final class Database
             $host = $this->config['host'] ?? 'unknown';
             $port = $this->config['port'] ?? 'unknown';
             $dbname = $this->config['name'] ?? 'unknown';
-            $missing = $this->config['pass'] === '' ? ' DB_PASS is empty or not set.' : '';
+            $missing = $this->config['pass'] === ''
+                ? ' Database password is empty or not set. Provide DB_PASS, DB_PASSWORD, MYSQL_PASSWORD, or DATABASE_URL.'
+                : '';
 
             throw new RuntimeException(
                 sprintf(
-                    'Database connection failed (mysql://%s:%s/%s): %s%s Verify DB_HOST, DB_PORT, DB_NAME, DB_USER, and DB_PASS in the environment and import database/migrations.sql. On Render, 127.0.0.1:3306 only works if you bundle MySQL in the container; otherwise DB_HOST must point to an external database.',
+                    'Database connection failed (mysql://%s:%s/%s): %s%s Verify DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASS or DATABASE_URL in the environment and import database/migrations.sql. On Render, 127.0.0.1:3306 only works if you bundle MySQL in the container; otherwise DB_HOST must point to an external database.',
                     $host,
                     $port,
                     $dbname,

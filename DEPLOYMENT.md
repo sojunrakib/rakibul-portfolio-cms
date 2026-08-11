@@ -38,6 +38,9 @@ DB_NAME=your-database-name
 DB_USER=your-database-user
 DB_PASS=your-database-password
 
+# Or use one full connection string if your database provider gives one:
+# DATABASE_URL=mysql://user:password@host:3306/database
+
 MAIL_FROM=no-reply@example.com
 MAIL_TO=admin@example.com
 ADMIN_EMAIL=admin@example.com
@@ -91,7 +94,7 @@ ADMIN_EMAIL=admin@example.com
 ADMIN_PASSWORD=ChangeMe123!
 ```
 
-If you use Render's MySQL add-on, set `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, and `DB_PASS` to the credentials Render generates.
+If your provider gives a full MySQL URL, set `DATABASE_URL` instead of splitting the values manually. The app also understands common aliases such as `MYSQL_HOST`, `MYSQL_DATABASE`, `MYSQL_USER`, and `MYSQL_PASSWORD`.
 
 ## 5. Important notes
 
